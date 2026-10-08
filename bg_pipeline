@@ -1,0 +1,23 @@
+import sys
+from pathlib import Path
+from PIL import Image, ImageOps
+from rembg import remove
+import tqdm #Consider replacing with rich for better progress bar
+
+'''
+==========================================
+File Loading & Input Handling
+==========================================
+'''
+
+# Supported file extensions (images and videos) for background removal / processing
+supported_types = [".jpg", ".jpeg", ".png", ".webp", ".bmp", ".tiff", ".tif", ".img", ".mp4", ".mov", ".avi", ".mkv", ".webm", ".m4v", ".gif"]
+
+files = []
+inps = list(map(Path, input("Enter input path (File(s) or Folder Path): ").strip().split(",")))
+
+for paths in tqdm(inps, desc="Collecting files"):
+    if path.is_file():
+        files.append(path)
+    elif path.is_dir():
+        files.extend(p for p in path.rglob("*") if p.is_file())
