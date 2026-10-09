@@ -17,7 +17,10 @@ files = []
 inps = list(map(Path, input("Enter input path (File(s) or Folder Path): ").strip().split(",")))
 
 for paths in tqdm(inps, desc="Collecting files"):
-    if path.is_file():
-        files.append(path)
-    elif path.is_dir():
-        files.extend(p for p in path.rglob("*") if p.is_file())
+    if paths.suffix().lower() in supported_types:
+        if paths.is_file():
+            files.append(paths)
+        elif paths.is_dir():
+            files.extend(p for p in paths.rglob("*") if p.suffix().lower() in supported_types)
+    else: print(f"{paths} is an unsupported file type.")
+
